@@ -10,7 +10,7 @@ const DBconnect = async () => {
 
   try {
     await mongoose.connect(process.env.DB_URL, {
-      dbName: "your-db-name", // optional, replace if needed
+      dbName: "QK", // optional, replace if needed
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
