@@ -199,29 +199,32 @@ export const verifyOTP=catchAsyncError(async(req,res,next)=>{
 })
 
 // Login
-export const login=catchAsyncError(async(req,res,next)=>{
-  const {email,password}=req.body;
-  
-  if(!email || !password){
-    return(new ErrorHandler("Email password required",400));
+export const login = catchAsyncError(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return next(new ErrorHandler("Email and password required", 400));  // ✅ Use next()
   }
-  const user=await User.findOne({
+
+  const user = await User.findOne({
     email,
-    accountVerified:true
+    accountVerified: true
   }).select("+password");
 
-  if(!user){
-   return(new ErrorHandler("User not found",400));
+  if (!user) {
+    return next(new ErrorHandler("User not found", 400));  // ✅ Use next()
   }
-  const cmp=await user.comparePassword(password);
-  if(!cmp){
-    return(new ErrorHandler("Passworrd is wrong",400));
+
+  const cmp = await user.comparePassword(password);
+  if (!cmp) {
+    return next(new ErrorHandler("Password is wrong", 400));  // ✅ Use next()
   }
-  let token =await user.generateToken();
 
-  sendToken(token,user,200,"Login susseccfully",res);
+  const token = await user.generateToken();
 
-})
+  sendToken(token, user, 200, "Login successfully", res);
+});
+
 
 // logout
 
