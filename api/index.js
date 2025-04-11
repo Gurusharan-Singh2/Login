@@ -3,12 +3,12 @@ import cors from 'cors';
 
 import cookieParser from 'cookie-parser'
 import { config } from 'dotenv';
-import DBconnect from './database/dbConnect.js';
-import { errorMiddleware } from './middlewares/error.js';
-import Userrouter from './routes/userRouter.js';
+import DBconnect from '../database/dbConnect.js';
+import { errorMiddleware } from '../middlewares/error.js';
+import Userrouter from '../routes/userRouter.js';
 
 config();
-export const app=express();
+const app=express();
 DBconnect();
 app.use(cors())
 
@@ -26,8 +26,5 @@ app.use(errorMiddleware);
 
 
 
-app.listen(process.env.PORT,()=>{
-  console.log("Server Started");
-  
-})
 
+export default app;
